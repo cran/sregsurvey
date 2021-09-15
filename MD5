@@ -1,0 +1,10 @@
+7caaf6f9a1c71c932c8546db516acb35 *DESCRIPTION
+9373cbf5683dc44a9015e27dd17cb5c5 *NAMESPACE
+9828199eb13b8c797754c09c083c2b73 *R/sreg_ber.R
+f273d2968cbc6325ceb48382a9c1810d *R/sreg_pips.R
+0007b9e52ea68fd8ec9f3dc4448fa505 *R/sreg_poisson.R
+011630cef5e2b7aa264e53e7e075dd8b *R/sreg_srswr.R
+48343c324bca1cac64bbd80c2496b8ca *man/sreg_ber.Rd
+225385d5de85ceac3db3e431dd6378ca *man/sreg_pips.Rd
+19ce50f8a442fe88721f7be1709eaebb *man/sreg_poisson.Rd
+3ab8c5090c776e5e53d20951d84ba7f2 *man/sreg_srswr.Rd
