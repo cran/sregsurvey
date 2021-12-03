@@ -4,7 +4,7 @@
 \alias{sreg_pips}
 \title{Semiparametric Model-Assisted Estimation under a Proportional to Size Sampling Design}
 \usage{
-sreg_pips(location_formula, scale_formula, data, x, n)
+sreg_pips(location_formula, scale_formula, data, x, n, ...)
 }
 \arguments{
 \item{location_formula}{a symbolic description of the systematic component of the location model to be fitted.}
@@ -16,6 +16,8 @@ sreg_pips(location_formula, scale_formula, data, x, n)
 \item{x}{vector, an auxiliary variable to calculate the inclusion probabilities of each unit.}
 
 \item{n}{numeric, sample size.}
+
+\item{...}{further parameters accepted by caret and survey functions.}
 }
 \value{
 \code{sampling_design} is the name of the sampling design used in the estimation process.
@@ -34,20 +36,27 @@ sreg_pips(location_formula, scale_formula, data, x, n)
 \code{sreg_pips} is used to estimate the total parameter of a finite population generated from a semi-parametric generalized gamma population under a proportional to size without-replacement sampling design.
 }
 \examples{
+library(sregsurvey)
 library(survey)
 library(dplyr)
+library(gamlss)
 data(api)
 attach(apipop)
 Apipop <- filter(apipop,full!= 'NA')
 Apipop <- filter(Apipop, stype == 'H')
-Apipop <- select(Apipop,c(api00,grad.sch,full,api99))
-n=ceiling(0.2*dim(Apipop)[1])
-aux_var <- select(Apipop,'api99')
+Apipop <- Apipop \%>\% dplyr::select(api00,grad.sch,full,api99)
+n=ceiling(0.25*dim(Apipop)[1])
+aux_var <- Apipop \%>\% dplyr::select(api99)
 sreg_pips(api00 ~  pb(grad.sch), scale_formula = ~ full - 1, data= Apipop, x= aux_var, n=n)
+# The total population value is
 sum(Apipop$api00)
 }
 \references{
-Sarndal C.E.,  Swensson B., and Wretman J. (2003). Model Assisted Survey Sampling. Springer.
+Cardozo C.A, Alonso C. (2021) Semi-parametric model assisted estimation in finite populations. In preparation.
+
+Cardozo C.A.,  Paula G., and Vanegas L. (2021). Generalized log-gamma semiparametric models with P-spline smoothing. Submitted.
+
+Sarndal C.E.,  Swensson B., and Wretman J. (2003). Model Assisted Survey Sampling. Springer-Verlag.
 }
 \author{
 Carlos Alberto Cardozo Delgado <cardozorpackages@gmail.com>

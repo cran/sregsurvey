@@ -4,7 +4,14 @@
 \alias{sreg_srswr}
 \title{Semiparametric Model-Assisted Estimation under a Simple Random Sampling Without Replace Sampling Design}
 \usage{
-sreg_srswr(location_formula, scale_formula, data, fraction)
+sreg_srswr(
+  location_formula,
+  scale_formula,
+  data,
+  fraction,
+  format = "COMPLETE",
+  ...
+)
 }
 \arguments{
 \item{location_formula}{a symbolic description of the systematic component of the location model to be fitted.}
@@ -14,6 +21,10 @@ sreg_srswr(location_formula, scale_formula, data, fraction)
 \item{data}{a data frame, list containing the variables in the model.}
 
 \item{fraction}{numeric, represents a fraction of the size of the population. Default value is 0.2.}
+
+\item{format}{character, represents the type of report of results, 'SIMPLE' or 'COMPLETE'. Default value is 'COMPLETE'.}
+
+\item{...}{further parameters accepted by caret and survey functions.}
 }
 \value{
 \code{sampling_design} is the name of the sampling design used in the estimation process.
@@ -32,20 +43,25 @@ sreg_srswr(location_formula, scale_formula, data, fraction)
 \code{sreg_srswr} is used to estimate the total parameter of a finite population generated from a semi-parametric generalized gamma population under a simple random sampling without-replacement sampling design.
 }
 \examples{
+library(sregsurvey)
 library(survey)
 library(dplyr)
+library(gamlss)
 data(api)
 attach(apipop)
 Apipop <- filter(apipop,full!= 'NA')
 Apipop <- filter(Apipop, stype == 'H')
-Apipop <- select(Apipop,c(api00,grad.sch,full))
-sreg_srswr(api00 ~  pb(grad.sch), scale_formula = ~ full - 1, data= Apipop, fraction=0.25)
+Apipop <- Apipop \%>\% dplyr::select(api00,grad.sch,full)
+fit <- sreg_srswr(api00 ~  pb(grad.sch), scale_formula = ~ full - 1, data= Apipop, fraction=0.25)
+# The total population value is
 sum(Apipop$api00)
 }
 \references{
-Sarndal C.E., Swensson B., and Wretman J. (2003). Model Assisted Survey Sampling. Springer.
+Cardozo C.A, Alonso C. (2021) Semi-parametric model assisted estimation in finite populations. In preparation.
 
 Cardozo C.A.,  Paula G., and Vanegas L. (2021). Generalized log-gamma semiparametric models with P-spline smoothing. Submitted.
+
+Sarndal C.E.,  Swensson B., and Wretman J. (2003). Model Assisted Survey Sampling. Springer-Verlag.
 }
 \author{
 Carlos Alberto Cardozo Delgado <cardozorpackages@gmail.com>

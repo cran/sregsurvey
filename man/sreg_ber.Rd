@@ -4,7 +4,7 @@
 \alias{sreg_ber}
 \title{Semiparametric Model-Assisted Estimation under a Bernoulli Sampling Design}
 \usage{
-sreg_ber(location_formula, scale_formula, data, pi)
+sreg_ber(location_formula, scale_formula, data, pi, ...)
 }
 \arguments{
 \item{location_formula}{a symbolic description of the systematic component of the location model to be fitted.}
@@ -14,6 +14,8 @@ sreg_ber(location_formula, scale_formula, data, pi)
 \item{data}{a data frame, list containing the variables in the model.}
 
 \item{pi}{numeric, represents the first order probability. Default value is 0.5.}
+
+\item{...}{further parameters accepted by caret and survey functions.}
 }
 \value{
 \code{sampling_design} is the name of the sampling design used in the estimation process.
@@ -33,20 +35,26 @@ sreg_ber(location_formula, scale_formula, data, pi)
 }
 \examples{
 #This example use the data set 'apipop' of the survey package.
+library(sregsurvey)
 library(survey)
+library(magrittr)
 library(dplyr)
+library(gamlss)
 data(api)
 attach(apipop)
 Apipop <- filter(apipop,full!= 'NA')
 Apipop <- filter(Apipop, stype == 'H')
-Apipop <- select(Apipop,c(api00,grad.sch,full))
+Apipop <- Apipop \%>\% dplyr::select(api00,grad.sch,full)
 sreg_ber(api00 ~  pb(grad.sch), scale_formula = ~ full - 1, data= Apipop, pi=0.25)
+# The total population value is
 sum(Apipop$api00)
 }
 \references{
-Sarndal C.E.,  Swensson B., and Wretman J. (2003). Model Assisted Survey Sampling. Springer.
+Cardozo C.A, Alonso C. (2021) Semi-parametric model assisted estimation in finite populations. In preparation.
 
 Cardozo C.A.,  Paula G., and Vanegas L. (2021). Generalized log-gamma semiparametric models with P-spline smoothing. Submitted.
+
+Sarndal C.E.,  Swensson B., and Wretman J. (2003). Model Assisted Survey Sampling. Springer-Verlag.
 }
 \author{
 Carlos Alberto Cardozo Delgado <cardozorpackages@gmail.com>

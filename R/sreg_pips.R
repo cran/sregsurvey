@@ -6,7 +6,10 @@
 #' @param data a data frame, list containing the variables in the model.
 #' @param x vector, an auxiliary variable to calculate the inclusion probabilities of each unit.
 #' @param n numeric, sample size.
-#' @references Sarndal C.E.,  Swensson B., and Wretman J. (2003). Model Assisted Survey Sampling. Springer.
+#' @param ... further parameters accepted by caret and survey functions.
+#' @references Cardozo C.A, Alonso C. (2021) Semi-parametric model assisted estimation in finite populations. In preparation.
+#' @references Cardozo C.A.,  Paula G., and Vanegas L. (2021). Generalized log-gamma semiparametric models with P-spline smoothing. Submitted.
+#' @references Sarndal C.E.,  Swensson B., and Wretman J. (2003). Model Assisted Survey Sampling. Springer-Verlag.
 #' @return \code{sampling_design} is the name of the sampling design used in the estimation process.
 #' @return \code{N} is the population size.
 #' @return \code{n} is the sample size used in the estimation process.
@@ -16,26 +19,29 @@
 
 #' @author Carlos Alberto Cardozo Delgado <cardozorpackages@gmail.com>
 #' @examples
+#' library(sregsurvey)
 #' library(survey)
 #' library(dplyr)
+#' library(gamlss)
 #' data(api)
 #' attach(apipop)
 #' Apipop <- filter(apipop,full!= 'NA')
 #' Apipop <- filter(Apipop, stype == 'H')
-#' Apipop <- select(Apipop,c(api00,grad.sch,full,api99))
-#' n=ceiling(0.2*dim(Apipop)[1])
-#' aux_var <- select(Apipop,'api99')
+#' Apipop <- Apipop %>% dplyr::select(api00,grad.sch,full,api99)
+#' n=ceiling(0.25*dim(Apipop)[1])
+#' aux_var <- Apipop %>% dplyr::select(api99)
 #' sreg_pips(api00 ~  pb(grad.sch), scale_formula = ~ full - 1, data= Apipop, x= aux_var, n=n)
+#' # The total population value is
 #' sum(Apipop$api00)
 #' @importFrom gamlss gamlss gamlss.control
 #' @importFrom gamlss.dist GG
-#' @importFrom dplyr select
+#' @importFrom dplyr select filter
 #' @importFrom TeachingSampling S.piPS
 #' @importFrom caret knnreg
 #' @importFrom stats model.matrix predict
 #' @importFrom methods missingArg
 #' @export sreg_pips
-sreg_pips = function(location_formula,scale_formula,data,x,n){
+sreg_pips = function(location_formula,scale_formula,data,x,n,...){
   if (missingArg(location_formula))
     'The location_formula is missing!'
   if (missingArg(scale_formula))
@@ -51,7 +57,7 @@ sreg_pips = function(location_formula,scale_formula,data,x,n){
   sample <- new_data[index[,1],]
   factors <- 1/index[,2]
   sample <- data.frame(sample,factors)
-  fit_sreg <- try(gamlss(location_formula, sigma.formula = scale_formula, family=GG(sigma.link="identity"), data=sample, weights = factors, control=gamlss.control(n.cyc = 200)),silent=TRUE)
+  fit_sreg <- try(gamlss(location_formula, sigma.formula = scale_formula, family=GG(sigma.link="identity"), data=sample, weights = factors, control=gamlss.control(n.cyc = 200,trace = FALSE)),silent=TRUE)
   cond <- is.list(fit_sreg)
   if(cond==TRUE){
     sigma_est <- fit_sreg$sigma.coefficients
