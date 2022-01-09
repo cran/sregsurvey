@@ -1,7 +1,7 @@
 Package: sregsurvey
 Type: Package
-Title: Semiparametric Model-Assisted Estimation in Finite Population
-Version: 0.1.1
+Title: Semiparametric Model-Assisted Estimation in Finite Populations
+Version: 0.1.2
 Authors@R: c(person("Carlos Alberto","Cardozo Delgado",role = c("aut","cre","cph"),email="cardozorpackages@gmail.com"), person("Carlos E."," Alonso-Malaver",role = c("aut")))
 Maintainer: Carlos Alberto Cardozo Delgado <cardozorpackages@gmail.com>
 Description: It is a framework to fit semiparametric regression estimators for the total parameter of a finite population
@@ -14,8 +14,8 @@ Suggests: survey
 Imports: gamlss, gamlss.dist, TeachingSampling, methods, dplyr, caret,
         magrittr
 NeedsCompilation: no
-Packaged: 2021-12-03 17:13:18 UTC; CARLOS
+Packaged: 2022-01-09 16:35:50 UTC; CARLOS
 Author: Carlos Alberto Cardozo Delgado [aut, cre, cph],
   Carlos E.  Alonso-Malaver [aut]
 Repository: CRAN
-Date/Publication: 2021-12-03 22:50:10 UTC
+Date/Publication: 2022-01-09 16:50:02 UTC

@@ -11,7 +11,7 @@
 #' @return \code{n} is the random sample size used in the estimation process.
 #' @return \code{first_order_probabilities} vector of the first order probabilities used in the estimation process.
 #' @return \code{sample} is the random sample used in the estimation process.
-#' @return \code{total_y_sreg} is the SREG estimate of the total parameter of the finite population.
+#' @return \code{estimated_total_y_sreg} is the SREG estimate of the total parameter of the finite population.
 #' @references Cardozo C.A, Alonso C. (2021) Semi-parametric model assisted estimation in finite populations. In preparation.
 #' @references Cardozo C.A.,  Paula G., and Vanegas L. (2021). Generalized log-gamma semiparametric models with P-spline smoothing. Submitted.
 #' @references Sarndal C.E.,  Swensson B., and Wretman J. (2003). Model Assisted Survey Sampling. Springer-Verlag.
@@ -75,7 +75,7 @@ sreg_ber = function(location_formula,scale_formula,data,pi,...){
     mu_est <- (abs(lambda_est)^(2*sigma_est/lambda_est))*eta_est*(gamma((1/lambda_est^2) + (sigma_est/lambda_est)))/gamma(1/(lambda_est^2))
     cond2 <- fit_sreg$nu.coefficients*fit_sreg$sigma.coefficients
     t_y_sreg  <- sum(mu_est) + sum(factors*(select(sample,as.character(location_formula)[2]) - mu_est[index]))
-    output <- list(sampling_design="Bernoulli", N =N, n=n, first_order_probabilities=pi,  sample=sample, total_y_sreg=t_y_sreg)
+    output <- list(sampling_design="Bernoulli", N =N, n=n, first_order_probabilities=pi,  sample=sample, estimated_total_y_sreg=t_y_sreg)
     class(output) <- "sregsurvey"
     return(output)
   }

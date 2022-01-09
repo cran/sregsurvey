@@ -15,7 +15,7 @@
 #' @return \code{n} is the sample size used in the estimation process.
 #' @return \code{first_order_probabilities} vector of the first order probabilities used in the estimation process.
 #' @return \code{sample} is the random sample used in the estimation process.
-#' @return \code{total_y_sreg} is the SREG estimate of the total parameter of the finite population.
+#' @return \code{estimated_total_y_sreg} is the SREG estimate of the total parameter of the finite population.
 
 #' @author Carlos Alberto Cardozo Delgado <cardozorpackages@gmail.com>
 #' @examples
@@ -78,7 +78,7 @@ sreg_pips = function(location_formula,scale_formula,data,x,n,...){
     mu_est <- (abs(lambda_est)^(2*sigma_est/lambda_est))*eta_est*(gamma((1/lambda_est^2) + (sigma_est/lambda_est)))/gamma(1/(lambda_est^2))
     cond2 <- fit_sreg$nu.coefficients*fit_sreg$sigma.coefficients
     t_y_sreg  <- sum(mu_est) + sum(factors*(select(sample,as.character(location_formula)[2]) - mu_est[index[,1],]))
-    output <- list(sampling_design="Proportional to Size", N =N, n=n, first_order_probabilities=pi,  sample=sample, total_y_sreg=t_y_sreg)
+    output <- list(sampling_design="Proportional to Size", N =N, n=n, first_order_probabilities=pi,  sample=sample, estimated_total_y_sreg=t_y_sreg)
     class(output) <- "sregsurvey"
     return(output)
   }

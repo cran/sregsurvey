@@ -5,7 +5,17 @@
 \title{Semiparametric Model-Assisted Estimation under a Stratified Sampling
 with Simple Random Sampling Without Replace in each stratum.}
 \usage{
-sreg_stsi(location_formula, scale_formula, stratum, data, n, ss_sizes, ...)
+sreg_stsi(
+  location_formula,
+  scale_formula,
+  stratum,
+  data,
+  n,
+  ss_sizes,
+  allocation_type = "PA",
+  aux_x,
+  ...
+)
 }
 \arguments{
 \item{location_formula}{a symbolic description of the systematic component of the location model to be fitted.}
@@ -18,7 +28,12 @@ sreg_stsi(location_formula, scale_formula, stratum, data, n, ss_sizes, ...)
 
 \item{n}{integer, represents a fixed sample size.}
 
-\item{ss_sizes}{vector, represents a vector with the sample size in each stratum. By default is a proportional allocation, Sarndal et. al. (2003).}
+\item{ss_sizes}{vector, represents a vector with the sample size in each stratum.}
+
+\item{allocation_type}{character, there is two choices, proportional allocation, 'PA', and x-optimal allocation,'XOA'. By default is a 'PA', Sarndal et. al. (2003).}
+
+\item{aux_x}{vector, represents an auxiliary variable to help to calculate the sample sizes by the x-optimum allocation method, Sarndal et. al. (2003).
+This option is validated only when the argument allocation_type is equal to 'XOA'.}
 
 \item{...}{further parameters accepted by caret and survey functions.}
 }
@@ -27,13 +42,19 @@ sreg_stsi(location_formula, scale_formula, stratum, data, n, ss_sizes, ...)
 
 \code{N} is the population size.
 
-\code{n} is the fixed sample size used in the estimation process.
+\code{H} is the number of strata.
+
+\code{Ns} is the population strata sizes.
+
+\code{allocation_type} is the method used to calculate sample strata sizes.
+
+\code{global_n} is the global sample size used in the estimation process.
 
 \code{first_order_probabilities} vector of the first order probabilities used in the estimation process.
 
 \code{sample} is the random sample used in the estimation process.
 
-\code{total_y_sreg} is the SREG estimate of the total parameter of the finite population.
+\code{estimated_total_y_sreg} is the SREG estimate of the total parameter of the finite population.
 }
 \description{
 \code{sreg_stsi} is used to estimate the total parameter of a finite population generated from a semi-parametric generalized gamma population
@@ -50,7 +71,7 @@ attach(apipop)
 Apipop <- filter(apipop,full!= 'NA')
 Apipop <- Apipop \%>\% dplyr::select(api00,grad.sch,full,stype)
 dim(Apipop)
-sreg_stsi(api00 ~  pb(grad.sch),scale_formula = ~ full - 1, n=400, stratum = 'stype',data = Apipop)
+sreg_stsi(api00 ~  pb(grad.sch),scale_formula = ~ full - 1, n=400, stratum = 'stype', data = Apipop)
 # The total population value is
 sum(Apipop$api00)
 

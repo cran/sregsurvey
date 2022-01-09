@@ -28,7 +28,7 @@ sreg_ber(location_formula, scale_formula, data, pi, ...)
 
 \code{sample} is the random sample used in the estimation process.
 
-\code{total_y_sreg} is the SREG estimate of the total parameter of the finite population.
+\code{estimated_total_y_sreg} is the SREG estimate of the total parameter of the finite population.
 }
 \description{
 \code{sreg_ber} is used to estimate the total parameter of a finite population generated from a semi-parametric generalized gamma population under a Bernoulli sampling design.

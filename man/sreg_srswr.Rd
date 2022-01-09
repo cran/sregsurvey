@@ -22,7 +22,7 @@ sreg_srswr(
 
 \item{fraction}{numeric, represents a fraction of the size of the population. Default value is 0.2.}
 
-\item{format}{character, represents the type of report of results, 'SIMPLE' or 'COMPLETE'. Default value is 'COMPLETE'.}
+\item{format}{character, represents the type of summary of the methodology, 'SIMPLE' or 'COMPLETE'. Default value is 'COMPLETE'.}
 
 \item{...}{further parameters accepted by caret and survey functions.}
 }
@@ -37,7 +37,7 @@ sreg_srswr(
 
 \code{sample} is the random sample used in the estimation process.
 
-\code{total_y_sreg} is the SREG estimate of the total parameter of the finite population.
+\code{estimated_total_y_sreg} is the SREG estimate of the total parameter of the finite population.
 }
 \description{
 \code{sreg_srswr} is used to estimate the total parameter of a finite population generated from a semi-parametric generalized gamma population under a simple random sampling without-replacement sampling design.
