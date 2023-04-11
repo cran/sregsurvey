@@ -8,7 +8,7 @@
 #' @param n numeric, sample size.
 #' @param ... further parameters accepted by caret and survey functions.
 #' @references Cardozo C.A, Alonso C. (2021) Semi-parametric model assisted estimation in finite populations. In preparation.
-#' @references Cardozo C.A.,  Paula G., and Vanegas L. (2021). Generalized log-gamma semiparametric models with P-spline smoothing. Submitted.
+#' @references Cardozo C.A.,  Paula G., and Vanegas L. (2022). Generalized log-gamma additive partial linear models with P-spline smoothing. Statistical Papers.
 #' @references Sarndal C.E.,  Swensson B., and Wretman J. (2003). Model Assisted Survey Sampling. Springer-Verlag.
 #' @return \code{sampling_design} is the name of the sampling design used in the estimation process.
 #' @return \code{N} is the population size.
@@ -28,11 +28,14 @@
 #' Apipop <- filter(apipop,full!= 'NA')
 #' Apipop <- filter(Apipop, stype == 'H')
 #' Apipop <- Apipop %>% dplyr::select(api00,grad.sch,full,api99)
-#' n=ceiling(0.25*dim(Apipop)[1])
+#' n=ceiling(0.2*dim(Apipop)[1])
 #' aux_var <- Apipop %>% dplyr::select(api99)
-#' sreg_pips(api00 ~  pb(grad.sch), scale_formula = ~ full - 1, data= Apipop, x= aux_var, n=n)
+#' fit <- sreg_pips(api00 ~  pb(grad.sch), scale_formula = ~ full - 1, data= Apipop, x= aux_var, n=n)
+#' fit
 #' # The total population value is
-#' sum(Apipop$api00)
+#' true_total <- sum(Apipop$api00)
+#' # The estimated relative bias in percentage is
+#' round(abs((fit$estimated_total_y_sreg - true_total)/true_total),3)*100
 #' @importFrom gamlss gamlss gamlss.control
 #' @importFrom gamlss.dist GG
 #' @importFrom dplyr select filter

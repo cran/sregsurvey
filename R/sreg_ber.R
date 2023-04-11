@@ -13,7 +13,7 @@
 #' @return \code{sample} is the random sample used in the estimation process.
 #' @return \code{estimated_total_y_sreg} is the SREG estimate of the total parameter of the finite population.
 #' @references Cardozo C.A, Alonso C. (2021) Semi-parametric model assisted estimation in finite populations. In preparation.
-#' @references Cardozo C.A.,  Paula G., and Vanegas L. (2021). Generalized log-gamma semiparametric models with P-spline smoothing. Submitted.
+#' @references Cardozo C.A.,  Paula G., and Vanegas L. (2022). Generalized log-gamma additive partial linear models with P-spline smoothing. Statistical Papers.
 #' @references Sarndal C.E.,  Swensson B., and Wretman J. (2003). Model Assisted Survey Sampling. Springer-Verlag.
 #' @author Carlos Alberto Cardozo Delgado <cardozorpackages@gmail.com>
 #' @examples
@@ -28,9 +28,12 @@
 #' Apipop <- filter(apipop,full!= 'NA')
 #' Apipop <- filter(Apipop, stype == 'H')
 #' Apipop <- Apipop %>% dplyr::select(api00,grad.sch,full)
-#' sreg_ber(api00 ~  pb(grad.sch), scale_formula = ~ full - 1, data= Apipop, pi=0.25)
+#' fit <- sreg_ber(api00 ~  pb(grad.sch), scale_formula = ~ full - 1, data= Apipop, pi=0.2)
+#' fit
 #' # The total population value is
-#' sum(Apipop$api00)
+#' true_total <- sum(Apipop$api00)
+#' # The estimated relative bias in percentage is
+#' round(abs((fit$estimated_total_y_sreg - true_total)/true_total),3)*100
 #' @importFrom gamlss gamlss gamlss.control
 #' @importFrom gamlss.dist GG
 #' @importFrom dplyr select filter
